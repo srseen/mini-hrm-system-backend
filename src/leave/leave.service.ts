@@ -20,7 +20,9 @@ export class LeaveService {
     private employeeRepository: Repository<Employee>,
   ) {}
 
-  async create(createLeaveRequestDto: CreateLeaveRequestDto): Promise<LeaveRequest> {
+  async create(
+    createLeaveRequestDto: CreateLeaveRequestDto,
+  ): Promise<LeaveRequest> {
     const { employeeId, startDate, endDate, ...rest } = createLeaveRequestDto;
 
     // Validate employee exists
@@ -48,17 +50,19 @@ export class LeaveService {
     const overlappingLeave = await this.leaveRequestRepository
       .createQueryBuilder('leave')
       .where('leave.employeeId = :employeeId', { employeeId })
-      .andWhere('leave.status IN (:...statuses)', { 
-        statuses: [LeaveStatus.PENDING, LeaveStatus.APPROVED] 
+      .andWhere('leave.status IN (:...statuses)', {
+        statuses: [LeaveStatus.PENDING, LeaveStatus.APPROVED],
       })
       .andWhere(
         '(leave.startDate <= :endDate AND leave.endDate >= :startDate)',
-        { startDate, endDate }
+        { startDate, endDate },
       )
       .getOne();
 
     if (overlappingLeave) {
-      throw new BadRequestException('Leave request overlaps with existing request');
+      throw new BadRequestException(
+        'Leave request overlaps with existing request',
+      );
     }
 
     const leaveRequest = this.leaveRequestRepository.create({
@@ -107,11 +111,13 @@ export class LeaveService {
     const leaveRequest = await this.findOne(id);
 
     if (leaveRequest.status !== LeaveStatus.PENDING) {
-      throw new BadRequestException('Can only update status of pending requests');
+      throw new BadRequestException(
+        'Can only update status of pending requests',
+      );
     }
 
     leaveRequest.status = updateLeaveStatusDto.status;
-    leaveRequest.approverComments = updateLeaveStatusDto.approverComments;
+    leaveRequest.approverComments = updateLeaveStatusDto.approverComments || '';
     leaveRequest.approvedBy = approverId;
     leaveRequest.approvedAt = new Date();
 
@@ -122,7 +128,9 @@ export class LeaveService {
     const leaveRequest = await this.findOne(id);
 
     if (leaveRequest.employeeId !== employeeId) {
-      throw new ForbiddenException('You can only cancel your own leave requests');
+      throw new ForbiddenException(
+        'You can only cancel your own leave requests',
+      );
     }
 
     if (leaveRequest.status === LeaveStatus.APPROVED) {
@@ -133,7 +141,10 @@ export class LeaveService {
     return await this.leaveRequestRepository.save(leaveRequest);
   }
 
-  async getLeaveBalance(employeeId: string, year: number = new Date().getFullYear()) {
+  async getLeaveBalance(
+    employeeId: string,
+    year: number = new Date().getFullYear(),
+  ) {
     const employee = await this.employeeRepository.findOne({
       where: { id: employeeId, isActive: true },
     });
@@ -151,11 +162,14 @@ export class LeaveService {
       .getMany();
 
     // Calculate used days by leave type
-    const usedDays = approvedLeaves.reduce((acc, leave) => {
-      const days = leave.numberOfDays;
-      acc[leave.leaveType] = (acc[leave.leaveType] || 0) + days;
-      return acc;
-    }, {} as Record<string, number>);
+    const usedDays = approvedLeaves.reduce(
+      (acc, leave) => {
+        const days = leave.numberOfDays;
+        acc[leave.leaveType] = (acc[leave.leaveType] || 0) + days;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
 
     // Standard leave entitlements (can be made configurable)
     const entitlements = {
@@ -167,14 +181,17 @@ export class LeaveService {
       EMERGENCY: 3,
     };
 
-    const balance = Object.keys(entitlements).reduce((acc, leaveType) => {
-      acc[leaveType] = {
-        entitled: entitlements[leaveType],
-        used: usedDays[leaveType] || 0,
-        remaining: entitlements[leaveType] - (usedDays[leaveType] || 0),
-      };
-      return acc;
-    }, {} as Record<string, any>);
+    const balance = Object.keys(entitlements).reduce(
+      (acc, leaveType) => {
+        acc[leaveType] = {
+          entitled: entitlements[leaveType],
+          used: usedDays[leaveType] || 0,
+          remaining: entitlements[leaveType] - (usedDays[leaveType] || 0),
+        };
+        return acc;
+      },
+      {} as Record<string, any>,
+    );
 
     return {
       employee: {
