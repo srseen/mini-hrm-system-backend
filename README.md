@@ -207,7 +207,7 @@ The documentation includes:
 - Try-it-out functionality
 - Model definitions
 
-## 🗄️ Database Schema
+## Database Schema
 
 ### Core Entities
 
