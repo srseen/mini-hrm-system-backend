@@ -15,9 +15,9 @@ import { UpdateLeaveStatusDto } from './dto/update-leave-status.dto';
 export class LeaveService {
   constructor(
     @InjectRepository(LeaveRequest)
-    private leaveRequestRepository: Repository<LeaveRequest>,
+    private readonly leaveRequestRepository: Repository<LeaveRequest>,
     @InjectRepository(Employee)
-    private employeeRepository: Repository<Employee>,
+    private readonly employeeRepository: Repository<Employee>,
   ) {}
 
   async create(
