@@ -22,6 +22,9 @@ import { EmployeesService } from './employees.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { UserRole } from '../entities/user.entity';
 
 @ApiTags('Employees')
 @ApiBearerAuth()
@@ -31,6 +34,8 @@ export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
   @Post()
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.HR)
   @ApiOperation({ summary: 'Create a new employee' })
   @ApiResponse({
     status: 201,
@@ -77,6 +82,8 @@ export class EmployeesController {
   }
 
   @Patch(':id')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.HR, UserRole.MANAGER)
   @ApiOperation({ summary: 'Update employee' })
   @ApiParam({ name: 'id', description: 'Employee ID' })
   @ApiResponse({
@@ -92,6 +99,8 @@ export class EmployeesController {
   }
 
   @Delete(':id')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Delete employee (soft delete)' })
   @ApiParam({ name: 'id', description: 'Employee ID' })
   @ApiResponse({

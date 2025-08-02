@@ -9,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '../entities/user.entity';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { UserRole } from '../entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,7 @@ export class AuthService {
   ) {}
 
   async register(registerDto: RegisterDto) {
-    const { email, password } = registerDto;
+    const { email, password, roles } = registerDto;
 
     // Check if user already exists
     const existingUser = await this.userRepository.findOne({
@@ -34,12 +35,13 @@ export class AuthService {
     const user = this.userRepository.create({
       email,
       password,
+      roles: roles || [UserRole.EMPLOYEE],
     });
 
     await this.userRepository.save(user);
 
     // Generate JWT token
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email, roles: user.roles };
     const token = this.jwtService.sign(payload);
 
     return {
@@ -47,6 +49,7 @@ export class AuthService {
       user: {
         id: user.id,
         email: user.email,
+        roles: user.roles,
         createdAt: user.createdAt,
       },
       token,
@@ -64,7 +67,7 @@ export class AuthService {
     }
 
     // Generate JWT token
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email, roles: user.roles };
     const token = this.jwtService.sign(payload);
 
     return {
@@ -72,6 +75,7 @@ export class AuthService {
       user: {
         id: user.id,
         email: user.email,
+        roles: user.roles,
       },
       token,
     };

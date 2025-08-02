@@ -20,6 +20,9 @@ import { PositionsService } from './positions.service';
 import { CreatePositionDto } from './dto/create-position.dto';
 import { UpdatePositionDto } from './dto/update-position.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { UserRole } from '../entities/user.entity';
 
 @ApiTags('Positions')
 @ApiBearerAuth()
@@ -29,6 +32,8 @@ export class PositionsController {
   constructor(private readonly positionsService: PositionsService) {}
 
   @Post()
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.HR)
   @ApiOperation({ summary: 'Create a new position' })
   @ApiResponse({
     status: 201,
@@ -65,6 +70,8 @@ export class PositionsController {
   }
 
   @Patch(':id')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.HR)
   @ApiOperation({ summary: 'Update position' })
   @ApiParam({ name: 'id', description: 'Position ID' })
   @ApiResponse({
@@ -80,6 +87,8 @@ export class PositionsController {
   }
 
   @Delete(':id')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Delete position (soft delete)' })
   @ApiParam({ name: 'id', description: 'Position ID' })
   @ApiResponse({

@@ -8,6 +8,13 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
+export enum UserRole {
+  ADMIN = 'admin',
+  HR = 'hr',
+  MANAGER = 'manager',
+  EMPLOYEE = 'employee',
+}
+
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -18,6 +25,14 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    array: true,
+    default: [UserRole.EMPLOYEE],
+  })
+  roles: UserRole[];
 
   @Column({ default: true })
   isActive: boolean;
@@ -35,5 +50,13 @@ export class User {
 
   async validatePassword(password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password);
+  }
+
+  hasRole(role: UserRole): boolean {
+    return this.roles.includes(role);
+  }
+
+  hasAnyRole(roles: UserRole[]): boolean {
+    return roles.some(role => this.roles.includes(role));
   }
 }

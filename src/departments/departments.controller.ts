@@ -20,6 +20,9 @@ import { DepartmentsService } from './departments.service';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { UserRole } from '../entities/user.entity';
 
 @ApiTags('Departments')
 @ApiBearerAuth()
@@ -29,6 +32,8 @@ export class DepartmentsController {
   constructor(private readonly departmentsService: DepartmentsService) {}
 
   @Post()
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.HR)
   @ApiOperation({ summary: 'Create a new department' })
   @ApiResponse({
     status: 201,
@@ -65,6 +70,8 @@ export class DepartmentsController {
   }
 
   @Patch(':id')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.HR)
   @ApiOperation({ summary: 'Update department' })
   @ApiParam({ name: 'id', description: 'Department ID' })
   @ApiResponse({
@@ -80,6 +87,8 @@ export class DepartmentsController {
   }
 
   @Delete(':id')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Delete department (soft delete)' })
   @ApiParam({ name: 'id', description: 'Department ID' })
   @ApiResponse({
