@@ -1,8 +1,8 @@
-# 🏢 HRM System - Human Resource Management
+# HRM System - Human Resource Management
 
 A comprehensive Human Resource Management system built with **NestJS**, **PostgreSQL**, and **TypeORM**. This system provides complete employee management, department organization, position tracking, and leave management with role-based access control.
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
@@ -16,9 +16,10 @@ A comprehensive Human Resource Management system built with **NestJS**, **Postgr
 - [Usage Examples](#-usage-examples)
 - [Development](#-development)
 
-## ✨ Features
+## Features
 
-### 🔐 Authentication & Authorization
+### Authentication & Authorization
+
 - **JWT-based Authentication** with secure password hashing (bcrypt)
 - **Role-Based Access Control (RBAC)** with 4 user roles:
   - `ADMIN` - Full system access
@@ -26,26 +27,30 @@ A comprehensive Human Resource Management system built with **NestJS**, **Postgr
   - `MANAGER` - Team and leave approval
   - `EMPLOYEE` - Basic access and leave requests
 
-### 👥 Employee Management
+### Employee Management
+
 - Complete CRUD operations for employee records
 - Employee profiles with personal and professional information
 - Department and position assignments
 - Soft delete functionality (data preservation)
 - Advanced filtering by department and position
 
-### 🏢 Department Management
+### Department Management
+
 - Department creation and management
 - One-to-many relationships with employees
 - Department statistics and reporting
 - Prevent deletion of departments with active employees
 
-### 💼 Position Management
+### Position Management
+
 - Job position definitions with salary information
 - Position-employee relationships
 - Position statistics and employee tracking
 - Salary management capabilities
 
-### 🏖️ Leave Management System
+### Leave Management System
+
 - **Leave Types**: Annual, Sick, Personal, Maternity, Paternity, Emergency
 - **Leave Status Tracking**: Pending, Approved, Rejected, Cancelled
 - **Smart Validation**:
@@ -56,9 +61,10 @@ A comprehensive Human Resource Management system built with **NestJS**, **Postgr
 - **Approval Workflow** with audit trail
 - **Self-service** leave cancellation
 
-## 🛠 Tech Stack
+## Tech Stack
 
 ### Backend
+
 - **Framework**: NestJS (Node.js)
 - **Database**: PostgreSQL
 - **ORM**: TypeORM
@@ -68,12 +74,13 @@ A comprehensive Human Resource Management system built with **NestJS**, **Postgr
 - **Configuration**: @nestjs/config
 
 ### DevOps & Tools
+
 - **Containerization**: Docker & Docker Compose
 - **Development**: Hot reload, TypeScript
 - **API Testing**: Built-in Swagger UI
 - **Code Quality**: ESLint, Prettier
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
@@ -98,9 +105,10 @@ src/
 └── main.ts                  # Application entry point
 ```
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
+
 - Node.js (v18 or higher)
 - Docker & Docker Compose
 - Git
@@ -108,28 +116,33 @@ src/
 ### Quick Start
 
 1. **Clone the repository**
+
 ```bash
 git clone <repository-url>
 cd hrm-system
 ```
 
 2. **Install dependencies**
+
 ```bash
 npm install
 ```
 
 3. **Set up environment variables**
+
 ```bash
 cp .env.example .env
 # Edit .env with your configuration
 ```
 
 4. **Start PostgreSQL database**
+
 ```bash
 docker-compose up -d
 ```
 
 5. **Run the application**
+
 ```bash
 # Development mode
 npm run start:dev
@@ -140,10 +153,11 @@ npm run start:prod
 ```
 
 The application will be available at:
+
 - **API Server**: http://localhost:3000
 - **Swagger Documentation**: http://localhost:3000/api
 
-## ⚙️ Configuration
+## Configuration
 
 ### Environment Variables (.env)
 
@@ -177,15 +191,16 @@ services:
       POSTGRES_PASSWORD: hrm_pass
       POSTGRES_DB: hrm_db
     ports:
-      - "5432:5432"
+      - '5432:5432'
 ```
 
-## 📚 API Documentation
+## API Documentation
 
 Interactive API documentation is available via Swagger UI at:
 **http://localhost:3000/api**
 
 The documentation includes:
+
 - All available endpoints
 - Request/response schemas
 - Authentication requirements
@@ -197,48 +212,54 @@ The documentation includes:
 ### Core Entities
 
 #### Users
+
 - Authentication and authorization
 - Role-based access control
 - Password hashing with bcrypt
 
 #### Employees
+
 - Personal information (name, email, phone)
 - Professional details (hire date, status)
 - Department and position relationships
 
 #### Departments
+
 - Organizational structure
 - One-to-many with employees
 - Soft delete support
 
 #### Positions
+
 - Job definitions
 - Salary information
 - Employee assignments
 
 #### Leave Requests
+
 - Leave type and duration
 - Approval workflow
 - Status tracking
 - Audit trail
 
 ### Relationships
+
 ```
 User (1:1) Employee (M:1) Department
 Employee (M:1) Position
 Employee (1:M) LeaveRequest
 ```
 
-## 🔐 Authentication & Authorization
+## Authentication & Authorization
 
 ### User Roles & Permissions
 
-| Role | Permissions |
-|------|-------------|
-| **ADMIN** | Full system access, delete operations |
-| **HR** | Employee management, leave approval, department/position management |
-| **MANAGER** | Leave approval, employee updates |
-| **EMPLOYEE** | View basic data, submit leave requests |
+| Role         | Permissions                                                         |
+| ------------ | ------------------------------------------------------------------- |
+| **ADMIN**    | Full system access, delete operations                               |
+| **HR**       | Employee management, leave approval, department/position management |
+| **MANAGER**  | Leave approval, employee updates                                    |
+| **EMPLOYEE** | View basic data, submit leave requests                              |
 
 ### Authentication Flow
 
@@ -247,9 +268,10 @@ Employee (1:M) LeaveRequest
 3. **Protected Routes**: Include `Authorization: Bearer <token>` header
 4. **Role Check**: Routes automatically verify required roles
 
-## 🔗 API Endpoints
+## API Endpoints
 
 ### Authentication
+
 ```
 POST   /auth/register          # User registration
 POST   /auth/login             # User login
@@ -257,6 +279,7 @@ GET    /protected              # Test protected route
 ```
 
 ### Employee Management
+
 ```
 GET    /employees              # List all employees
 POST   /employees              # Create employee (HR/Admin)
@@ -266,6 +289,7 @@ DELETE /employees/:id          # Delete employee (Admin)
 ```
 
 ### Department Management
+
 ```
 GET    /departments            # List all departments
 POST   /departments            # Create department (HR/Admin)
@@ -276,6 +300,7 @@ DELETE /departments/:id        # Delete department (Admin)
 ```
 
 ### Position Management
+
 ```
 GET    /positions              # List all positions
 POST   /positions              # Create position (HR/Admin)
@@ -286,6 +311,7 @@ DELETE /positions/:id          # Delete position (Admin)
 ```
 
 ### Leave Management
+
 ```
 GET    /leave                  # List all leaves (Admin/HR/Manager)
 POST   /leave                  # Submit leave request
@@ -296,7 +322,7 @@ PATCH  /leave/:id/status       # Approve/reject leave (Admin/HR/Manager)
 PATCH  /leave/:id/cancel       # Cancel own leave request
 ```
 
-## 💡 Usage Examples
+## Usage Examples
 
 ### 1. User Registration & Login
 
@@ -385,7 +411,7 @@ curl -X PATCH http://localhost:3000/leave/{leave-id}/status \
   }'
 ```
 
-## 🔧 Development
+## Development
 
 ### Available Scripts
 
@@ -431,9 +457,10 @@ docker-compose up -d
 5. **Make changes**: Code will auto-reload
 6. **Test endpoints**: Use Swagger UI or Postman
 
-## 🚀 Production Deployment
+## Production Deployment
 
 ### Environment Setup
+
 1. Set production environment variables
 2. Use a managed PostgreSQL service
 3. Configure proper JWT secrets
@@ -441,12 +468,13 @@ docker-compose up -d
 5. Configure reverse proxy (nginx)
 
 ### Build & Deploy
+
 ```bash
 npm run build
 npm run start:prod
 ```
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -454,17 +482,16 @@ npm run start:prod
 4. Add tests if applicable
 5. Submit a pull request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
 
-## 🆘 Support
+## Support
 
 For support and questions:
+
 - Check the [API Documentation](http://localhost:3000/api)
 - Review the code examples above
 - Open an issue in the repository
 
 ---
-
-**Built with ❤️ using NestJS and PostgreSQL**
