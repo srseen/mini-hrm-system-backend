@@ -1,5 +1,6 @@
 import { IsDateString, IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { LeaveType } from '../../entities/leave-request.entity';
 
 export class CreateLeaveRequestDto {
@@ -7,9 +8,17 @@ export class CreateLeaveRequestDto {
     example: '2024-02-01',
     description: 'Leave start date (YYYY-MM-DD)',
   })
+  @ApiProperty({
+    example: '2024-02-01',
+    description: 'Leave start date (YYYY-MM-DD)',
+  })
   @IsDateString()
   startDate: string;
 
+  @ApiProperty({
+    example: '2024-02-03',
+    description: 'Leave end date (YYYY-MM-DD)',
+  })
   @ApiProperty({
     example: '2024-02-03',
     description: 'Leave end date (YYYY-MM-DD)',
@@ -22,9 +31,18 @@ export class CreateLeaveRequestDto {
     description: 'Type of leave',
     enum: LeaveType,
   })
+  @ApiProperty({
+    example: 'ANNUAL',
+    description: 'Type of leave',
+    enum: LeaveType,
+  })
   @IsEnum(LeaveType)
   leaveType: LeaveType;
 
+  @ApiPropertyOptional({
+    example: 'Family vacation',
+    description: 'Reason for leave',
+  })
   @ApiPropertyOptional({
     example: 'Family vacation',
     description: 'Reason for leave',
@@ -33,6 +51,10 @@ export class CreateLeaveRequestDto {
   @IsString()
   reason?: string;
 
+  @ApiProperty({
+    example: 'uuid-of-employee',
+    description: 'Employee ID requesting leave',
+  })
   @ApiProperty({
     example: 'uuid-of-employee',
     description: 'Employee ID requesting leave',

@@ -1,7 +1,12 @@
 import { IsString, IsEmail, IsOptional, IsDateString, IsUUID } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateEmployeeDto {
+  @ApiProperty({
+    example: 'John',
+    description: 'Employee first name',
+  })
   @ApiProperty({
     example: 'John',
     description: 'Employee first name',
@@ -13,6 +18,10 @@ export class CreateEmployeeDto {
     example: 'Doe',
     description: 'Employee last name',
   })
+  @ApiProperty({
+    example: 'Doe',
+    description: 'Employee last name',
+  })
   @IsString()
   lastName: string;
 
@@ -20,9 +29,17 @@ export class CreateEmployeeDto {
     example: 'john.doe@company.com',
     description: 'Employee email address',
   })
+  @ApiProperty({
+    example: 'john.doe@company.com',
+    description: 'Employee email address',
+  })
   @IsEmail()
   email: string;
 
+  @ApiPropertyOptional({
+    example: '+1234567890',
+    description: 'Employee phone number',
+  })
   @ApiPropertyOptional({
     example: '+1234567890',
     description: 'Employee phone number',
@@ -35,9 +52,17 @@ export class CreateEmployeeDto {
     example: '2024-01-15',
     description: 'Employee hire date (YYYY-MM-DD)',
   })
+  @ApiProperty({
+    example: '2024-01-15',
+    description: 'Employee hire date (YYYY-MM-DD)',
+  })
   @IsDateString()
   hireDate: string;
 
+  @ApiPropertyOptional({
+    example: 'uuid-of-department',
+    description: 'Department ID',
+  })
   @ApiPropertyOptional({
     example: 'uuid-of-department',
     description: 'Department ID',
@@ -46,6 +71,10 @@ export class CreateEmployeeDto {
   @IsUUID()
   departmentId?: string;
 
+  @ApiPropertyOptional({
+    example: 'uuid-of-position',
+    description: 'Position ID',
+  })
   @ApiPropertyOptional({
     example: 'uuid-of-position',
     description: 'Position ID',

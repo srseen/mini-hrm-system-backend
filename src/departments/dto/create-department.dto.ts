@@ -1,7 +1,12 @@
 import { IsString, IsOptional } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateDepartmentDto {
+  @ApiProperty({
+    example: 'Human Resources',
+    description: 'Department name',
+  })
   @ApiProperty({
     example: 'Human Resources',
     description: 'Department name',
@@ -9,6 +14,10 @@ export class CreateDepartmentDto {
   @IsString()
   name: string;
 
+  @ApiPropertyOptional({
+    example: 'Manages employee relations and company policies',
+    description: 'Department description',
+  })
   @ApiPropertyOptional({
     example: 'Manages employee relations and company policies',
     description: 'Department description',
