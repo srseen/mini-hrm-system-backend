@@ -16,13 +16,6 @@ import {
   ApiBearerAuth,
   ApiParam,
 } from '@nestjs/swagger';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBearerAuth,
-  ApiParam,
-} from '@nestjs/swagger';
 import { PositionsService } from './positions.service';
 import { CreatePositionDto } from './dto/create-position.dto';
 import { UpdatePositionDto } from './dto/update-position.dto';
@@ -48,13 +41,19 @@ export class PositionsController {
     status: 201,
     description: 'Position has been successfully created.',
   })
-  @ApiResponse({ status: 409, description: 'Position with title already exists.' })
+  @ApiResponse({
+    status: 409,
+    description: 'Position with title already exists.',
+  })
   @ApiOperation({ summary: 'Create a new position' })
   @ApiResponse({
     status: 201,
     description: 'Position has been successfully created.',
   })
-  @ApiResponse({ status: 409, description: 'Position with title already exists.' })
+  @ApiResponse({
+    status: 409,
+    description: 'Position with title already exists.',
+  })
   create(@Body(ValidationPipe) createPositionDto: CreatePositionDto) {
     return this.positionsService.create(createPositionDto);
   }
@@ -128,7 +127,10 @@ export class PositionsController {
     description: 'Position has been successfully deleted.',
   })
   @ApiResponse({ status: 404, description: 'Position not found.' })
-  @ApiResponse({ status: 409, description: 'Cannot delete position with employees.' })
+  @ApiResponse({
+    status: 409,
+    description: 'Cannot delete position with employees.',
+  })
   @ApiOperation({ summary: 'Delete position (soft delete)' })
   @ApiParam({ name: 'id', description: 'Position ID' })
   @ApiResponse({
@@ -136,7 +138,10 @@ export class PositionsController {
     description: 'Position has been successfully deleted.',
   })
   @ApiResponse({ status: 404, description: 'Position not found.' })
-  @ApiResponse({ status: 409, description: 'Cannot delete position with employees.' })
+  @ApiResponse({
+    status: 409,
+    description: 'Cannot delete position with employees.',
+  })
   remove(@Param('id') id: string) {
     return this.positionsService.remove(id);
   }

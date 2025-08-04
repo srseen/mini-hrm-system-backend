@@ -6,7 +6,6 @@ import {
   IsEnum,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { ApiProperty } from '@nestjs/swagger';
 import { UserRole } from '../../entities/user.entity';
 
 export class RegisterDto {

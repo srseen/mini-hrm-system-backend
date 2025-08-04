@@ -16,13 +16,6 @@ import {
   ApiBearerAuth,
   ApiParam,
 } from '@nestjs/swagger';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBearerAuth,
-  ApiParam,
-} from '@nestjs/swagger';
 import { DepartmentsService } from './departments.service';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
@@ -48,13 +41,19 @@ export class DepartmentsController {
     status: 201,
     description: 'Department has been successfully created.',
   })
-  @ApiResponse({ status: 409, description: 'Department with name already exists.' })
+  @ApiResponse({
+    status: 409,
+    description: 'Department with name already exists.',
+  })
   @ApiOperation({ summary: 'Create a new department' })
   @ApiResponse({
     status: 201,
     description: 'Department has been successfully created.',
   })
-  @ApiResponse({ status: 409, description: 'Department with name already exists.' })
+  @ApiResponse({
+    status: 409,
+    description: 'Department with name already exists.',
+  })
   create(@Body(ValidationPipe) createDepartmentDto: CreateDepartmentDto) {
     return this.departmentsService.create(createDepartmentDto);
   }
@@ -128,7 +127,10 @@ export class DepartmentsController {
     description: 'Department has been successfully deleted.',
   })
   @ApiResponse({ status: 404, description: 'Department not found.' })
-  @ApiResponse({ status: 409, description: 'Cannot delete department with employees.' })
+  @ApiResponse({
+    status: 409,
+    description: 'Cannot delete department with employees.',
+  })
   @ApiOperation({ summary: 'Delete department (soft delete)' })
   @ApiParam({ name: 'id', description: 'Department ID' })
   @ApiResponse({
@@ -136,7 +138,10 @@ export class DepartmentsController {
     description: 'Department has been successfully deleted.',
   })
   @ApiResponse({ status: 404, description: 'Department not found.' })
-  @ApiResponse({ status: 409, description: 'Cannot delete department with employees.' })
+  @ApiResponse({
+    status: 409,
+    description: 'Cannot delete department with employees.',
+  })
   remove(@Param('id') id: string) {
     return this.departmentsService.remove(id);
   }

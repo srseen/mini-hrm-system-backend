@@ -1,6 +1,5 @@
 import { IsString, IsOptional, IsNumber, Min } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
 export class CreatePositionDto {
@@ -28,11 +27,11 @@ export class CreatePositionDto {
   description?: string;
 
   @ApiPropertyOptional({
-    example: 75000.00,
+    example: 75000.0,
     description: 'Base salary for this position',
   })
   @ApiPropertyOptional({
-    example: 75000.00,
+    example: 75000.0,
     description: 'Base salary for this position',
   })
   @IsOptional()

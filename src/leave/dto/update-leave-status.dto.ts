@@ -1,6 +1,5 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { LeaveStatus } from '../../entities/leave-request.entity';
 
 export class UpdateLeaveStatusDto {

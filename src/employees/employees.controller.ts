@@ -18,14 +18,6 @@ import {
   ApiParam,
   ApiQuery,
 } from '@nestjs/swagger';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBearerAuth,
-  ApiParam,
-  ApiQuery,
-} from '@nestjs/swagger';
 import { EmployeesService } from './employees.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
@@ -51,13 +43,19 @@ export class EmployeesController {
     status: 201,
     description: 'Employee has been successfully created.',
   })
-  @ApiResponse({ status: 409, description: 'Employee with email already exists.' })
+  @ApiResponse({
+    status: 409,
+    description: 'Employee with email already exists.',
+  })
   @ApiOperation({ summary: 'Create a new employee' })
   @ApiResponse({
     status: 201,
     description: 'Employee has been successfully created.',
   })
-  @ApiResponse({ status: 409, description: 'Employee with email already exists.' })
+  @ApiResponse({
+    status: 409,
+    description: 'Employee with email already exists.',
+  })
   create(@Body(ValidationPipe) createEmployeeDto: CreateEmployeeDto) {
     return this.employeesService.create(createEmployeeDto);
   }
