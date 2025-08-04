@@ -13,7 +13,7 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 export class EmployeesService {
   constructor(
     @InjectRepository(Employee)
-    private employeeRepository: Repository<Employee>,
+    private readonly employeeRepository: Repository<Employee>,
   ) {}
 
   async create(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
@@ -51,7 +51,10 @@ export class EmployeesService {
     return employee;
   }
 
-  async update(id: string, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
+  async update(
+    id: string,
+    updateEmployeeDto: UpdateEmployeeDto,
+  ): Promise<Employee> {
     const employee = await this.findOne(id);
 
     // Check email uniqueness if email is being updated
@@ -71,7 +74,7 @@ export class EmployeesService {
 
   async remove(id: string): Promise<void> {
     const employee = await this.findOne(id);
-    
+
     // Soft delete by setting isActive to false
     employee.isActive = false;
     await this.employeeRepository.save(employee);

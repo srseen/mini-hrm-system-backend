@@ -6,17 +6,9 @@ export class CreateDepartmentDto {
     example: 'Human Resources',
     description: 'Department name',
   })
-  @ApiProperty({
-    example: 'Human Resources',
-    description: 'Department name',
-  })
   @IsString()
   name: string;
 
-  @ApiPropertyOptional({
-    example: 'Manages employee relations and company policies',
-    description: 'Department description',
-  })
   @ApiPropertyOptional({
     example: 'Manages employee relations and company policies',
     description: 'Department description',

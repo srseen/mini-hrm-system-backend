@@ -13,7 +13,7 @@ import { UpdateDepartmentDto } from './dto/update-department.dto';
 export class DepartmentsService {
   constructor(
     @InjectRepository(Department)
-    private departmentRepository: Repository<Department>,
+    private readonly departmentRepository: Repository<Department>,
   ) {}
 
   async create(createDepartmentDto: CreateDepartmentDto): Promise<Department> {
@@ -51,11 +51,17 @@ export class DepartmentsService {
     return department;
   }
 
-  async update(id: string, updateDepartmentDto: UpdateDepartmentDto): Promise<Department> {
+  async update(
+    id: string,
+    updateDepartmentDto: UpdateDepartmentDto,
+  ): Promise<Department> {
     const department = await this.findOne(id);
 
     // Check name uniqueness if name is being updated
-    if (updateDepartmentDto.name && updateDepartmentDto.name !== department.name) {
+    if (
+      updateDepartmentDto.name &&
+      updateDepartmentDto.name !== department.name
+    ) {
       const existingDepartment = await this.departmentRepository.findOne({
         where: { name: updateDepartmentDto.name },
       });
@@ -71,7 +77,7 @@ export class DepartmentsService {
 
   async remove(id: string): Promise<void> {
     const department = await this.findOne(id);
-    
+
     // Check if department has employees
     if (department.employees && department.employees.length > 0) {
       throw new ConflictException(
@@ -86,7 +92,7 @@ export class DepartmentsService {
 
   async getDepartmentStats(id: string) {
     const department = await this.findOne(id);
-    
+
     return {
       department: {
         id: department.id,
@@ -94,12 +100,13 @@ export class DepartmentsService {
         description: department.description,
       },
       employeeCount: department.employees?.length || 0,
-      employees: department.employees?.map(emp => ({
-        id: emp.id,
-        fullName: emp.fullName,
-        email: emp.email,
-        position: emp.position?.title,
-      })) || [],
+      employees:
+        department.employees?.map((emp) => ({
+          id: emp.id,
+          fullName: emp.fullName,
+          email: emp.email,
+          position: emp.position?.title,
+        })) || [],
     };
   }
 }

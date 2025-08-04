@@ -8,18 +8,9 @@ export class UpdateLeaveStatusDto {
     description: 'New status for the leave request',
     enum: LeaveStatus,
   })
-  @ApiProperty({
-    example: 'APPROVED',
-    description: 'New status for the leave request',
-    enum: LeaveStatus,
-  })
   @IsEnum(LeaveStatus)
   status: LeaveStatus;
 
-  @ApiPropertyOptional({
-    example: 'Approved for family vacation',
-    description: 'Comments from approver',
-  })
   @ApiPropertyOptional({
     example: 'Approved for family vacation',
     description: 'Comments from approver',

@@ -28,8 +28,6 @@ import { UserRole } from '../entities/user.entity';
 
 @ApiTags('Employees')
 @ApiBearerAuth()
-@ApiTags('Employees')
-@ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('employees')
 export class EmployeesController {
@@ -38,15 +36,6 @@ export class EmployeesController {
   @Post()
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.HR)
-  @ApiOperation({ summary: 'Create a new employee' })
-  @ApiResponse({
-    status: 201,
-    description: 'Employee has been successfully created.',
-  })
-  @ApiResponse({
-    status: 409,
-    description: 'Employee with email already exists.',
-  })
   @ApiOperation({ summary: 'Create a new employee' })
   @ApiResponse({
     status: 201,
@@ -67,18 +56,7 @@ export class EmployeesController {
     required: false,
     description: 'Filter by department ID',
   })
-  @ApiQuery({
-    name: 'position',
-    required: false,
-    description: 'Filter by position ID',
-  })
   @ApiResponse({ status: 200, description: 'List of employees.' })
-  @ApiOperation({ summary: 'Get all employees' })
-  @ApiQuery({
-    name: 'department',
-    required: false,
-    description: 'Filter by department ID',
-  })
   @ApiQuery({
     name: 'position',
     required: false,
@@ -103,10 +81,6 @@ export class EmployeesController {
   @ApiParam({ name: 'id', description: 'Employee ID' })
   @ApiResponse({ status: 200, description: 'Employee details.' })
   @ApiResponse({ status: 404, description: 'Employee not found.' })
-  @ApiOperation({ summary: 'Get employee by ID' })
-  @ApiParam({ name: 'id', description: 'Employee ID' })
-  @ApiResponse({ status: 200, description: 'Employee details.' })
-  @ApiResponse({ status: 404, description: 'Employee not found.' })
   findOne(@Param('id') id: string) {
     return this.employeesService.findOne(id);
   }
@@ -114,13 +88,6 @@ export class EmployeesController {
   @Patch(':id')
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.HR, UserRole.MANAGER)
-  @ApiOperation({ summary: 'Update employee' })
-  @ApiParam({ name: 'id', description: 'Employee ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'Employee has been successfully updated.',
-  })
-  @ApiResponse({ status: 404, description: 'Employee not found.' })
   @ApiOperation({ summary: 'Update employee' })
   @ApiParam({ name: 'id', description: 'Employee ID' })
   @ApiResponse({
@@ -138,13 +105,6 @@ export class EmployeesController {
   @Delete(':id')
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Delete employee (soft delete)' })
-  @ApiParam({ name: 'id', description: 'Employee ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'Employee has been successfully deleted.',
-  })
-  @ApiResponse({ status: 404, description: 'Employee not found.' })
   @ApiOperation({ summary: 'Delete employee (soft delete)' })
   @ApiParam({ name: 'id', description: 'Employee ID' })
   @ApiResponse({

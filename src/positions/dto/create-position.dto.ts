@@ -7,17 +7,9 @@ export class CreatePositionDto {
     example: 'Software Engineer',
     description: 'Position title',
   })
-  @ApiProperty({
-    example: 'Software Engineer',
-    description: 'Position title',
-  })
   @IsString()
   title: string;
 
-  @ApiPropertyOptional({
-    example: 'Develops and maintains software applications',
-    description: 'Position description',
-  })
   @ApiPropertyOptional({
     example: 'Develops and maintains software applications',
     description: 'Position description',
@@ -26,10 +18,6 @@ export class CreatePositionDto {
   @IsString()
   description?: string;
 
-  @ApiPropertyOptional({
-    example: 75000.0,
-    description: 'Base salary for this position',
-  })
   @ApiPropertyOptional({
     example: 75000.0,
     description: 'Base salary for this position',

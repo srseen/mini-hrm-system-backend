@@ -13,7 +13,7 @@ import { UpdatePositionDto } from './dto/update-position.dto';
 export class PositionsService {
   constructor(
     @InjectRepository(Position)
-    private positionRepository: Repository<Position>,
+    private readonly positionRepository: Repository<Position>,
   ) {}
 
   async create(createPositionDto: CreatePositionDto): Promise<Position> {
@@ -51,7 +51,10 @@ export class PositionsService {
     return position;
   }
 
-  async update(id: string, updatePositionDto: UpdatePositionDto): Promise<Position> {
+  async update(
+    id: string,
+    updatePositionDto: UpdatePositionDto,
+  ): Promise<Position> {
     const position = await this.findOne(id);
 
     // Check title uniqueness if title is being updated
@@ -71,7 +74,7 @@ export class PositionsService {
 
   async remove(id: string): Promise<void> {
     const position = await this.findOne(id);
-    
+
     // Check if position has employees
     if (position.employees && position.employees.length > 0) {
       throw new ConflictException(
@@ -86,7 +89,7 @@ export class PositionsService {
 
   async getPositionStats(id: string) {
     const position = await this.findOne(id);
-    
+
     return {
       position: {
         id: position.id,
@@ -95,12 +98,13 @@ export class PositionsService {
         baseSalary: position.baseSalary,
       },
       employeeCount: position.employees?.length || 0,
-      employees: position.employees?.map(emp => ({
-        id: emp.id,
-        fullName: emp.fullName,
-        email: emp.email,
-        department: emp.department?.name,
-      })) || [],
+      employees:
+        position.employees?.map((emp) => ({
+          id: emp.id,
+          fullName: emp.fullName,
+          email: emp.email,
+          department: emp.department?.name,
+        })) || [],
     };
   }
 }
